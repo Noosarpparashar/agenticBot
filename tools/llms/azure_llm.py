@@ -1,9 +1,9 @@
 import openai
-from .base_llm import BaseLLM
+from tools.llms.base_llm import BaseLLM
 import os
 
 class AzureLLM(BaseLLM):
-    def __init__(self, deployment_name=None, max_tokens=512):
+    def __init__(self, deployment_name=None, max_completion_tokens=512):
         openai.api_type = "azure"
         openai.api_base = os.environ.get("AZURE_OPENAI_ENDPOINT")  # required
         openai.api_version = os.environ.get("AZURE_OPENAI_API_VERSION", "2025-01-01-preview")
@@ -11,7 +11,7 @@ class AzureLLM(BaseLLM):
 
         # Use provided deployment_name if given
         self.deployment_name = deployment_name or os.environ["DEPLOYMENT_NAME"]
-        self.max_tokens = max_tokens
+        self.max_completion_tokens = max_completion_tokens
 
     def generate(self, query: str, context: list, system_prompt: str = None):
         """
@@ -32,7 +32,7 @@ class AzureLLM(BaseLLM):
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
-            max_tokens=self.max_tokens
+            max_completion_tokens=self.max_completion_tokens
         )
 
         return response.choices[0].message.content.strip()
