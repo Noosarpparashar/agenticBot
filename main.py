@@ -40,7 +40,14 @@ def main():
 
         logging.info("Building FAISS vectorstore...")
         vectorstore = FAISSStore(top_k=TOP_K)
-        vectorstore.build_index(passages, embeddings, metadatas)
+        # Build index if not already saved
+        if not os.path.exists("vectorstore/faiss.index"):
+            print("⚡ Building FAISS index...")
+            vectorstore.build_index(passages, embeddings, metadatas)
+            vectorstore.save("vectorstore")
+        else:
+            print("✅ Loading FAISS index from disk...")
+            vectorstore.load("vectorstore")
 
         logging.info("Registering agents...")
         registry = AgentRegistry()
