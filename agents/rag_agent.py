@@ -9,5 +9,5 @@ class RAGAgent(BaseAgent):
     def run(self, query: str):
         query_vector = self.embedder.embed(query)
         results = self.vectorstore.retrieve(query_vector)
-        context_passages = [r[0] for r in results]
+        context_passages = [r for r in results]
         return self.llm.generate(query, context_passages)

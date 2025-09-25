@@ -97,5 +97,4 @@ class FAISSStore:
         logging.debug("[RETRIEVE] Starting retrieval...")
         results = self.search(query_embedding)
         logging.debug(f"[RETRIEVE] Results: {results}")
-        print("results********", results)  # keep your print
         return [r["text"] for r in results]
