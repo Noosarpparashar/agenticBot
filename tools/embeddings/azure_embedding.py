@@ -15,4 +15,5 @@ class AzureEmbedding(BaseEmbedding):
         return self.embedder.embed_query(text)
 
     def embed_batch(self, texts: list):
+        print([self.embedder.embed_query(t) for t in texts])
         return [self.embedder.embed_query(t) for t in texts]

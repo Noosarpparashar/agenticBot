@@ -34,4 +34,5 @@ class AzureLLM(BaseLLM):
             ],
             max_completion_tokens=self.max_completion_tokens
         )
+        print("Context", context)
         return response.choices[0].message.content.strip()
